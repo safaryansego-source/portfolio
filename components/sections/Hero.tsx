@@ -62,7 +62,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen flex-col justify-end overflow-hidden pb-16 pt-28 section-padding-compact md:pb-24"
+      className="relative flex min-h-[100dvh] w-full max-w-full flex-col justify-end overflow-hidden pb-16 pt-28 section-padding-compact md:pb-24"
     >
       {mounted && !isMobile && (
         <SceneErrorBoundary>

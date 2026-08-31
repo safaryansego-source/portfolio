@@ -31,7 +31,7 @@ export function HomePage() {
       <CursorGlow />
       <Navbar />
       <SectionRail />
-      <main className="relative z-[2]">
+      <main className="relative z-[2] w-full max-w-full overflow-x-hidden">
         <Hero />
         <About />
         <Experience />

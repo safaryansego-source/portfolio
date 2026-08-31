@@ -120,14 +120,30 @@ export function useLenisSmooth() {
 
     const animCtx = setupScrollAnimations();
 
-    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 400);
+    const refreshTimer = window.setTimeout(() => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    }, 400);
 
-    const onResize = () => ScrollTrigger.refresh();
-    window.addEventListener("resize", onResize);
+    let lastViewportWidth = window.innerWidth;
+    const onResize = () => {
+      const nextWidth = window.innerWidth;
+      if (Math.abs(nextWidth - lastViewportWidth) < 8) return;
+      lastViewportWidth = nextWidth;
+
+      window.requestAnimationFrame(() => {
+        lenis.resize();
+        ScrollTrigger.refresh();
+      });
+    };
+
+    window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("orientationchange", onResize, { passive: true });
 
     return () => {
       window.clearTimeout(refreshTimer);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
       animCtx.revert();
       gsap.ticker.remove(lenisRaf);
       lenis.destroy();
